@@ -37,6 +37,10 @@ if($conn === false){
       $query = "SELECT * FROM sign_in_table WHERE username LIKE '".$username."' AND password LIKE '".$password."'";
       $query_run = mysqli_query($conn, $query);
       if(mysqli_num_rows($query_run)>0){
+        // while ($row = mysqli_fetch_assoc($query_run)) {
+          # code...
+          // $returnData['referral_code'] = $row['referral_code'];
+
         // echo "Signed In";
         // echo '
             // <script type="text/javascript">
@@ -47,6 +51,7 @@ if($conn === false){
         if(mysqli_num_rows($query_run)>0){
         while ($row = mysqli_fetch_assoc($query_run)) {
           // echo $row['id'].'</br>';
+          $returnData['referral_code'] = $row['referral_code'];
           $query = 'SELECT SUM(amount) as wallet_balance FROM `wallet_transactions` WHERE user_id = '.$row['id'];
 
           if(mysqli_num_rows(mysqli_query($conn, $query))>0){
