@@ -23,14 +23,14 @@ $client = substr($client,0 , strlen($client)-3);
 $client = $client."}]";
 // echo 'json ready';
 // echo $client;
-$decodedData = (array) json_decode($client);
+$decodedDatas = (array) json_decode($client);
 // var_dump($decodedData);
 $result = array();
 $int =1;
 // echo 'starting';
 ?>
 <?php
-foreach ($decodedData as $decodedData) {
+foreach ($decodedDatas as $decodedData) {
   // echo $decodedData->Campaign_Name."Hello</br>";
     // echo $int;
     $returnData['ID'] = $int;
