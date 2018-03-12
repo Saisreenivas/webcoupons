@@ -47,6 +47,15 @@ function func($decodedDatas, $store,$conn){
     foreach ($decoded as $decodedData) {
       # code...
 
+      // foreach ($decodedData->imageUrls as $img) {
+      //   foreach ($img as $image) {
+      //     # code...
+      //     if($image->resolutionType == "low"){
+      //       $final_image = $image->url;
+      //     }
+      //   }
+      //   # code...
+      // }
       if($decodedData->availability == 'LIVE'){
         $decodedData->coupon_expiry= '2022-02-02';
       }
@@ -57,11 +66,18 @@ function func($decodedDatas, $store,$conn){
     // $returnData['Description'] = $decodedData->Description;
     // $returnData['Category'] = $decodedData ->Category;
     // $returnData['Tracking_URL'] = $decodedData ->Tracking_URL;
+    foreach ($decodedData->imageUrls as $image) {
+      # code...
+      if($image->resolutionType =="low"){
+        $imageUrl = $image->url;
+      }
+    }
+
 
     $query = "INSERT INTO `offers_database` (`id`, `offer_id`, `api_name`, `offer_company`,
        `offer_company_image`,`offer_title`, `offer_description`, `offer_category`, `offer_tracking_url`,
        `offer_code`,`offer_expiry_date`) VALUES (NULL, NULL, '".$store."',
-       '".$decodedData->title."',NULL ,'".$decodedData->availability."',
+       '".$decodedData->title."','".$imageUrl."' ,'".$decodedData->availability."',
         '".$decodedData->description."',
         '".$decodedData->category."', '".$decodedData->url."','NULL', '".$decodedData->coupon_expiry."');";
 

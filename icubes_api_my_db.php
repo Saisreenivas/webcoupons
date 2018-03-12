@@ -15,17 +15,44 @@ if($conn === false){
 
 }else{
 	// echo '<p align="center">Connected</p>';
-}?>
+}
+
+$presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
+
+
+?>
 <?php
 // <form action="icubes_api_my_db.php" method="GET" id="hello">
 // <p>Name: </p><input type="text" name="username"/></br>
 // <p>Password: </p><input type="password" name="password"/></br>
 // <input type="Submit" value="SignIn"/>
 // </form>
-$store="icubeswire";
-$presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
-$query = "SELECT * FROM offers_database WHERE api_name LIKE 'icubeswire' AND offer_expiry_date > '".$presentDate."'  ";
+$record_per_page = 50;
+$page = '';
+// if(isset($_GET["page"]))
+// {
+//  $page = $_GET["page"];
+//  $company="nothing";
+// }
+if(isset($_GET["page"]) && isset($_GET["company"])){
+  $page = $_GET["page"];
+  $company = $_GET["company"];
+}else
+{
+ $page = 1;
 
+}
+$start_from = ($page-1)*$record_per_page;
+
+$store="icubeswire";
+
+
+if($company != "amazon"){
+  $query = "SELECT * FROM offers_database WHERE api_name LIKE 'icubeswire' AND offer_expiry_date > '".$presentDate."' LIMIT $start_from, $record_per_page ";
+}else{
+  // $query = "SELECT * FROM offers_database WHERE api_name LIKE 'icubeswire' AND offer_expiry_date > '".$presentDate."' AND 'offer_company' LIKE '".$company."' LIMIT $start_from, $record_per_page ";
+  $query = "SELECT *  FROM `offers_database` WHERE `offer_company` LIKE '".$company."' AND `offer_expiry_date` > '".$presentDate."' AND `api_name` LIKE 'icubeswire'";
+}
 $query_run = mysqli_query($conn, $query);
 $my_array = array();
 if(mysqli_num_rows($query_run)>0){
@@ -42,5 +69,6 @@ if(mysqli_num_rows($query_run)>0){
 
   echo json_encode($my_array);
 }
+
 
 ?>

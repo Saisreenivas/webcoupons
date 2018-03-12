@@ -50,9 +50,12 @@ $cont =0;
 foreach ($categories as $category) {
   // '$'.str_replace(" ","", $category);
   # code...
+  $k=1;
   $sub_cat = array();
+  $sub_cat['name'] = 'All';
   for ($i=$i;$i<$j;$i++) {
     # code...
+
     if(strpos($sub_categories[$i], ' ') !== false || strpos($sub_categories[$i], '&') !==  false)   {
 
       if(strpos($sub_categories[$i], '&') !== false){
@@ -65,6 +68,7 @@ foreach ($categories as $category) {
     }else{
       $sub_category = $sub_categories[$i];
     }
+
 if($cont == 0){
     $query = "SELECT * FROM `offers_database`  where `offer_expiry_date` > '".$presentDate."'
     and offer_description LIKE '%".$sub_category."%' OR  offer_company LIKE '%".$sub_category
@@ -78,7 +82,10 @@ if($cont == 0){
 
 // echo $i.'</br>';
 
-    $sub_cat[$sub_categories[$i]] = $count;
+    $sub_cat['name'.$k] = $sub_categories[$i];
+    $sub_cat['data'.$k] = $count;
+    $k++;
+    // $sub_cat[$sub_categories[$i]] = $count;
   }else{
     $query = "SELECT * FROM `offers_database`  where `offer_expiry_date` > '"
       .$presentDate."' and offer_description LIKE '%".$word[0]."%' OR
@@ -88,8 +95,11 @@ if($cont == 0){
 
         $myquery = mysqli_query($conn, $query);
         $count = mysqli_num_rows($myquery);
-        $sub_cat[$sub_categories[$i]] = $count;
+        $sub_cat['name'.$k] = $sub_categories[$i];
+        $sub_cat['data'.$k] = $count;
         $cont =0;
+        $k++;
+        // $sub_categories[$i]
   }
 
 
@@ -98,8 +108,10 @@ if($cont == 0){
   $j=$j+4;
   // echo $category.'</br>';
 
-  $hey[$category] =  $sub_cat;
+  $hey['offer_category'] = $category;
+  $hey['data'] =  $sub_cat;
+  array_push($categ_array,$hey);
 
 }
-echo json_encode($hey);
+echo json_encode($categ_array);
 ?>

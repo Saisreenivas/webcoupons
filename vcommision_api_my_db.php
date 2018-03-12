@@ -15,15 +15,45 @@ if($conn === false){
 
 }else{
 	// echo '<p align="center">Connected</p>';
-}?>
+}
+$presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
+?>
 <?php
 // <form action="icubes_api_my_db.php" method="GET" id="hello">
 // <p>Name: </p><input type="text" name="username"/></br>
 // <p>Password: </p><input type="password" name="password"/></br>
 // <input type="Submit" value="SignIn"/>
 // </form>
-$presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
-$query = "SELECT * FROM `offers_database` WHERE `api_name` LIKE 'vcommission' AND `offer_expiry_date` > '".$presentDate."'";
+
+$record_per_page = 50;
+$page = '';
+if(isset($_GET["page"]))
+{
+ $page = $_GET["page"];
+}
+else
+{
+ $page = 1;
+}
+
+$start_from = ($page-1)*$record_per_page;
+
+////////////////////////////////////////////////////////////////
+$page_query = "SELECT * FROM offers_database WHERE api_name LIKE 'icubeswire' AND offer_expiry_date > '".$presentDate."'";
+$page_result = mysqli_query($conn, $page_query);
+$total_records = mysqli_num_rows($page_result);
+$total_pages = ceil($total_records/$record_per_page);
+$start_loop = $page;
+$difference = $total_pages - $page;
+if($difference <= 5)
+{
+ $start_loop = $total_pages - 5;
+}
+$end_loop = $start_loop + 4;
+////////////////////////////////////////////////////////////////
+
+
+$query = "SELECT * FROM `offers_database` WHERE `api_name` LIKE 'vcommission' AND `offer_expiry_date` > '".$presentDate."' LIMIT $start_from, $record_per_page ";
 
 $query_run = mysqli_query($conn, $query);
 $my_array = array();

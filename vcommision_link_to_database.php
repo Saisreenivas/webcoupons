@@ -18,7 +18,6 @@ if($conn === false){
 }
 ?>
 <?php
-<?php
 $client = file_get_contents('https://tools.vcommission.com/api/coupons.php?apikey=17c554a945c8fe66424fabc11c81b81aea0d635866fa279a26eb21c37b0e8e70');
 $store = "vcommission";
 $decodedData = json_decode($client);
@@ -26,6 +25,7 @@ func($decodedData, $store,$conn);
 
 
 ?>
+<?php
 function func($decodedData, $store,$conn){
   foreach ($decodedData as $decodedData) {
     // echo $decodedData->Campaign_Name."Hello</br>";
