@@ -35,7 +35,6 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
                               // $present =
         $categ_array = array();
 
-        $i=0;
         // $j=4;
         $cont =0;
 
@@ -43,7 +42,7 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
           $my_array = array();
           $sub_cat['name'] = 'All';
 
-          if($_GET["present"] == "All"){
+          if($_GET["present"] == "All" || $_GET["present"] == "all"){
             $j=4;
             $sub_categories = [$_GET["para1"], $_GET["para2"], $_GET["para3"], $_GET["para4"]];
             // echo $sub_categories[0].'</br>';
@@ -73,6 +72,9 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
             }
 
             if($cont == 0){
+              // echo $presentDate;
+              // echo $sub_category;
+
                 $query = "SELECT * FROM `offers_database`  where `offer_expiry_date` > '".$presentDate."'
                 and offer_description LIKE '%".$sub_category."%' OR  offer_company LIKE '%".$sub_category
                 ."%' OR offer_title LIKE '%".$sub_category."%';";
@@ -94,6 +96,7 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
                   }
 
                   // echo json_encode($my_array);
+                  // echo '</br>'.mysqli_num_rows($myquery).'</br>';
                 }
               }else if(cont ==1 ){
                 $query = "SELECT * FROM `offers_database`  where `offer_expiry_date` > '"
@@ -121,7 +124,7 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
                     // echo json_encode($my_array);
                   }
                     $cont =0;
-
+                    // echo mysqli_num_rows($myquery).'</br>';
               }
 
               // echo "loop".$i."</br></br></br></br></br></br>";

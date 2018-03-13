@@ -44,7 +44,7 @@ if(isset($_GET["para1"]) && isset($_GET["para2"]) && isset($_GET["para3"])
           $my_array = array();
           $sub_cat['name'] = 'All';
 
-          if(isset($_GET["present"]) == "All"){
+          if($_GET["present"] == "All" || $_GET["present"] == "all"){
             $j=4;
             $sub_categories = [$_GET["para1"], $_GET["para2"], $_GET["para3"], $_GET["para4"]];
           }

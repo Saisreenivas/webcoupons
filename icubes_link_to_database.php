@@ -19,6 +19,11 @@ if($conn === false){
 ?>
 <?php
 
+///////////////////////Deletes data from database
+$dataDeleteQuery = "Delete from ".$mysql_table." WHERE api_name like 'icubes'";
+$data = mysqli_query($conn, $dataDeleteQuery);
+///////////////////////
+
 $client = file_get_contents('http://assets.icubeswire.com/dealscoupons/api/getcoupon.php?API_KEY=2f27e0f4118efff145aeecd8367fbb37');
 
 // var_dump($json);

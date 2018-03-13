@@ -34,7 +34,10 @@ $client = file_get_contents('https://affiliate-api.flipkart.net/affiliate/offers
 $client = str_replace("'","''",$client);
 ?>
 <?php
-
+///////////////////////Deletes data from database
+$dataDeleteQuery = "Delete  from ".$mysql_table." WHERE api_name like 'flipkart'";
+$data = mysqli_query($conn, $dataDeleteQuery);
+///////////////////////
 $store = "flipkart";
 $decodedDatas = json_decode($client);
 func($decodedDatas, $store,$conn);

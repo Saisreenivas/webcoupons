@@ -18,6 +18,12 @@ if($conn === false){
 }
 ?>
 <?php
+
+///////////////////////Deletes data from database
+$dataDeleteQuery = "Delete from ".$mysql_table." WHERE api_name like 'vcommission'";
+$data = mysqli_query($conn, $dataDeleteQuery);
+///////////////////////
+
 $client = file_get_contents('https://tools.vcommission.com/api/coupons.php?apikey=17c554a945c8fe66424fabc11c81b81aea0d635866fa279a26eb21c37b0e8e70');
 $store = "vcommission";
 $decodedData = json_decode($client);
