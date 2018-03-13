@@ -1,10 +1,9 @@
 <?php
 $conn_error = 'Could not connect';
 
-$mysql_host = 'localhost';
-$mysql_user = 'root';
-$mysql_pass = '1';
-
+$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
+$mysql_user = 'vinodsai';
+$mysql_pass = 'Sai_1234';
 $mysql_db = 'coupons_app_data';
 
 $conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);

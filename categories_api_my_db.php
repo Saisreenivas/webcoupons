@@ -1,9 +1,9 @@
 <?php
 $conn_error = 'Could not connect';
 
-$mysql_host = 'localhost';
-$mysql_user = 'root';
-$mysql_pass = '1';
+$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
+$mysql_user = 'vinodsai';
+$mysql_pass = 'Sai_1234';
 
 $mysql_db = 'coupons_app_data';
 $mysql_table = 'offers_database';
@@ -37,7 +37,7 @@ if(mysqli_num_rows($query_run)>0){
     if($row['offer_category'] == ""){
       $row['offer_category'] = "Miscellaneous";
     }
-    
+
     $returnData['offer_category']=$row['offer_category'];
     $returnData['no_of_offers']= $row['no_of_offers'];
 
