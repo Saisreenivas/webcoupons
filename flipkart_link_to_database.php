@@ -1,20 +1,24 @@
 <?php
-$conn_error = 'Could not connect';
+// $conn_error = 'Could not connect';
+//
+// $mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
+// $mysql_user = 'vinodsai';
+// $mysql_pass = 'Sai_1234';
+// $mysql_db = 'coupons_app_data';
+//
+// $conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
+// $mysql_table = 'offers_database';
+// if($conn === false){
+//   echo 'not connected';
+//  die($conn_error);
+//
+// }else{
+// 	echo '<p align="center">Connected</p>';
+// }
 
-$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
-$mysql_user = 'vinodsai';
-$mysql_pass = 'Sai_1234';
-$mysql_db = 'coupons_app_data';
-
-$conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
+require 'db_connect.php';
 $mysql_table = 'offers_database';
-if($conn === false){
-  echo 'not connected';
- die($conn_error);
 
-}else{
-	echo '<p align="center">Connected</p>';
-}
 ?>
 <?php
 // Create a stream

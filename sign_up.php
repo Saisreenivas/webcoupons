@@ -1,21 +1,24 @@
 <?php
-$conn_error = 'Could not connect';
+// $conn_error = 'Could not connect';
+//
+// $mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
+// $mysql_user = 'vinodsai';
+// $mysql_pass = 'Sai_1234';
+//
+// $mysql_db = 'coupons_app_data';
+// $mysql_table = 'sign_in_table';
+//
+// $conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
+// if($conn === false){
+//
+//  die($conn_error);
+//
+// }else{
+// 	// echo '<p align="center">Connected</p>';
+// }
 
-$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
-$mysql_user = 'vinodsai';
-$mysql_pass = 'Sai_1234';
-
-$mysql_db = 'coupons_app_data';
+require 'db_connect.php';
 $mysql_table = 'sign_in_table';
-
-$conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
-if($conn === false){
-
- die($conn_error);
-
-}else{
-	// echo '<p align="center">Connected</p>';
-}
 
 
 // <form action="sign_up.php" method="GET">
@@ -45,9 +48,9 @@ if($conn === false){
       $query = "INSERT INTO `sign_in_table` (`id`, `username`, `password`, `referred_by`,
          `referral_code`, `wallet_balance`) VALUES (NULL, '".$username
          ."', '".$password."', '".$referred_by
-         ."', '".$referral_code."', '10')";
+         ."', '".$referral_code."', '0')";
 
-        if($query_run  = mysqli_query($conn, $query)){
+				if($query_run  = mysqli_query($conn, $query)){
           $last_id = mysqli_insert_id($conn);
           // primary database updated once
           // echo ''.$referred_by.'</br>'.$last_id;
@@ -55,50 +58,53 @@ if($conn === false){
 
 
           $returnData['success'] = true;
-          if($referred_by == null){
-              $returnData['referral_null']= true;
+				  if($referred_by == null){
+				      $returnData['referral_null']= true;
+							echo json_encode($returnData);
+							return true;
           }else{
-              $returnData['referral_null'] =false;
+				      $returnData['referral_null'] =false;
+							// echo "</br> Result error".mysqli_error($conn)."</br>";
           // echo ''.$referred_by;
           $query = "SELECT * FROM sign_in_table WHERE referral_code = '".$referred_by."'";
           $myquery = mysqli_query($conn, $query);
-          if(!$myquery){
-            $returnData['referral_code'] = false;
+				  if(!$myquery){
+				    $returnData['referral_code'] = false;
             // echo "".mysqli_error($conn);
           }else{
-          $rowcount=mysqli_num_rows($myquery);
+				  $rowcount=mysqli_num_rows($myquery);
           // echo "Result set has %d rows.".$rowcount;
-          if(mysqli_num_rows($myquery)>0){
-            while ($row = mysqli_fetch_assoc($myquery)) {
-              $messMe = $row["id"];
-              // echo '</br>hi '.$messMe.' Hello '.$row['referral_code'].' me '.$last_id.' Hello</br>';
-              $addingbalancequery = "INSERT INTO wallet_transactions(user_id,
-                  amount, description, referred_id) VALUES('".$row['id']."',
-                  '49','Referred by Him','".$row["referral_code"]."')";
-              if($data = mysqli_query($conn, $addingbalancequery)){
-                // echo 'success';
-                $returnData['referral_activation'] = true;
-                $returnData['referral_code'] = true;
-              }else{
-                // echo "</br> Result error".mysqli_error($conn);
-              }
-              # updated database for 2nd user_id
-              $firstpersonquery = "INSERT INTO wallet_transactions (user_id,
-                  amount, description,referred_id) VALUES('".$last_id."',
-                  '49','Referral inserted','".$row['referral_code']."')";
-              if($data = mysqli_query($conn, $firstpersonquery)){
-              // echo 'success';
-                $returnData['referred_by_activation'] = true;
-                $returnData['referral_code'] = true;
-              }else{
-              // echo "</br> Result error".mysqli_error($conn)."</br>";
-            }
+  					if(mysqli_num_rows($myquery)>0){
+					    while ($row = mysqli_fetch_assoc($myquery)) {
+					      $messMe = $row["id"];
+	              // echo '</br>hi '.$messMe.' Hello '.$row['referral_code'].' me '.$last_id.' Hello</br>';
+	              $addingbalancequery = "INSERT INTO wallet_transactions(user_id,
+	                  amount, description, referred_id) VALUES('".$row['id']."',
+	                  '49','Referred by Him','".$row["referral_code"]."')";
+	              if($data = mysqli_query($conn, $addingbalancequery)){
+	                // echo 'success';
+					        $returnData['referral_activation'] = true;
+	                $returnData['referral_code'] = true;
+	              }else{
+					        // echo "</br> Result error".mysqli_error($conn);
+	              }
+					      # updated database for 2nd user_id
+	              $firstpersonquery = "INSERT INTO wallet_transactions (user_id,
+	                  amount, description,referred_id) VALUES('".$last_id."',
+	                  '49','Referral inserted','".$row['referral_code']."')";
+	              if($data = mysqli_query($conn, $firstpersonquery)){
+	              // echo 'success';
+	                $returnData['referred_by_activation'] = true;
+	                $returnData['referral_code'] = true;
+	              }else{
+	              // echo "</br> Result error".mysqli_error($conn)."</br>";
+	            }
 
 
-            }
+	            }
 
-            echo json_encode($returnData);
-            return true;
+	            echo json_encode($returnData);
+	            return true;
             // echo 'referral exists. You earn Rs.49';
           }
 
@@ -112,7 +118,7 @@ if($conn === false){
       }
 
         }else{
-            $returnData['success']=false;
+				    $returnData['success']=false;
             echo json_encode($returnData);
             return true;
             // echo "error: ".mysqli_error($conn);

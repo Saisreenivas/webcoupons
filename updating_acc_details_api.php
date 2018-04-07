@@ -1,45 +1,21 @@
+
 <?php
-$conn_error = 'Could not connect';
+  require 'db_connect.php';
+  $mysql_table = 'sign_in_table';
 
-$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
-$mysql_user = 'vinodsai';
-$mysql_pass = 'Sai_1234';
-// $mysql_host = "localhost";
-// $mysql_user = "root";
-// $mysql_pass = "1";
-
-$mysql_db = 'coupons_app_data';
-$mysql_table = 'sign_in_table';
-
-$conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
-if($conn === false){
-
- die($conn_error);
-
-}else{
-	// echo '<p align="center">Connected</p>';
-}
-
-// <!-- <form action="sign_in.php" method="GET" id="hello">
-//
-// 	<p>Name: </p><input type="text" name="username"/></br>
-// 	<p>Password: </p><input type="password" name="password"/></br>
-// 	<input type="Submit" value="SignIn"/>
-// </form> -->
-
-?>
-<?php
-	if(isset($_GET['accName']) && isset($_GET['accIfsc']) && isset($_GET['accNo']) && $_GET['username'])
+	if(isset($_GET['accName']) && isset($_GET['accIfsc']) && isset($_GET['accNo']) && $_GET['username'] && $_GET['redeem'] && $_GET['accBal'])
       {
 		$accountName = $_GET['accName'];
 		$accountIfsc = $_GET['accIfsc'];
     $accountNo = $_GET['accNo'];
     $username = $_GET['username'];
+    $redeem = $_GET['redeem'];
+    $accBal = $_GET['accBal'];
 
 		if((!empty($accountName)) && (!empty($accountIfsc)) && (!empty($accountNo)) && (!empty($username)))
     {
 			// $query = "INSERT INTO '".$mysql_table."' (id, username,password,referred_by,referral_code,wallet_balance) VALUES(NULL,'".$username."','".$password."','".$referred_by."','".$referral_code."','".$wallet_balance."')";
-      $query = "UPDATE `sign_in_table` SET `account_holder` = '".$accountName."',`account_ifsc`= '".$accountIfsc."',account_number='".$accountNo."' WHERE `username` = '".$username."'";
+      $query = "UPDATE `sign_in_table` SET `account_holder` = '".$accountName."',`account_ifsc`= '".$accountIfsc."',account_number='".$accountNo."', redeem_balance='".$redeem."', wallet_balance='".$accBal."' WHERE `username` = '".$username."'";
       // $query = "SELECT * FROM sign_in_table WHERE username LIKE '".$username."' AND password LIKE '".$password."'";
       $query_run = mysqli_query($conn, $query);
       if($query_run){

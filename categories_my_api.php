@@ -1,20 +1,23 @@
 <?php
-$conn_error = 'Could not connect';
-$mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
-$mysql_user = 'vinodsai';
-$mysql_pass = 'Sai_1234';
+// $conn_error = 'Could not connect';
+// $mysql_host = 'peak.cwtinczi5fmr.us-east-2.rds.amazonaws.com';
+// $mysql_user = 'vinodsai';
+// $mysql_pass = 'Sai_1234';
+//
+// $mysql_db = 'coupons_app_data';
+// $mysql_table = 'offers_database';
+//
+// $conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
+// if($conn === false){
+//
+//  die($conn_error);
+//
+// }else{
+// 	// echo '<p align="center">Connected</p>';
+// }
 
-$mysql_db = 'coupons_app_data';
+require 'db_connect.php';
 $mysql_table = 'offers_database';
-
-$conn = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_db);
-if($conn === false){
-
- die($conn_error);
-
-}else{
-	// echo '<p align="center">Connected</p>';
-}
 $presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
 ?>
 <?php
