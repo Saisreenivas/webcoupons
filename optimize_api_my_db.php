@@ -29,7 +29,7 @@ $presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
 // <input type="Submit" value="SignIn"/>
 // </form>
 
-$record_per_page = 50;
+$record_per_page = 30;
 $page = '';
 if(isset($_GET["page"]))
 {
@@ -42,34 +42,23 @@ else
 
 $start_from = ($page-1)*$record_per_page;
 
-////////////////////////////////////////////////////////////////
-$page_query = "SELECT * FROM offers_database WHERE api_name LIKE 'vcommission' AND offer_expiry_date > '".$presentDate."'";
-$page_result = mysqli_query($conn, $page_query);
-$total_records = mysqli_num_rows($page_result);
-$total_pages = ceil($total_records/$record_per_page);
-$start_loop = $page;
-$difference = $total_pages - $page;
-if($difference <= 5)
-{
- $start_loop = $total_pages - 5;
-}
-$end_loop = $start_loop + 4;
-////////////////////////////////////////////////////////////////
+
+$store="optimize";
 
 
-$query = "SELECT * FROM `offers_database` WHERE `api_name` LIKE 'vcommission' AND `offer_expiry_date` > '".$presentDate."' LIMIT $start_from, $record_per_page ";
+$query = "SELECT * FROM offers_database WHERE api_name LIKE '".$store."' AND 'offer_expiry_date' > '".$presentDate."' LIMIT $start_from, $record_per_page";
 
 $query_run = mysqli_query($conn, $query);
 $my_array = array();
 if(mysqli_num_rows($query_run)>0){
   while($row = mysqli_fetch_assoc($query_run)){
     $returnData['ID'] = $row['offer_id'];
-    $returnData['store_name']=$row['offer_company'];
-    $returnData['offer_name']= $row['offer_title'];
-    $returnData['category'] =$row['offer_description'];
-    $returnData['coupon_title'] = $row['offer_category'];
-    $returnData['store_link'] =$row['offer_tracking_url'];
-    $returnData['store_image']=$row['offer_company_image'];
+    $returnData['title']=$row['offer_company'];
+    $returnData['availability']= $row['offer_title'];
+    $returnData['description'] =$row['offer_description'];
+    $returnData['category'] = $row['offer_category'];
+    $returnData['url'] =$row['offer_tracking_url'];
+    $returnData['image_url']= $row['offer_company_image'];
 
     array_push($my_array, $returnData);
   }

@@ -25,7 +25,11 @@ $mysql_table = 'offers_database';
 
 ///////////////////////Deletes data from database
 $dataDeleteQuery = "Delete from ".$mysql_table." WHERE api_name like 'icubes'";
-$data = mysqli_query($conn, $dataDeleteQuery);
+if($data = mysqli_query($conn, $dataDeleteQuery)){
+    echo 'deleted</br>';
+}else{
+  echo 'not deleted </br>';
+}
 ///////////////////////
 
 $client = file_get_contents('http://assets.icubeswire.com/dealscoupons/api/getcoupon.php?API_KEY=2f27e0f4118efff145aeecd8367fbb37');
@@ -43,7 +47,7 @@ $client = str_replace("'","''",$client);
 $decodedData = (array) json_decode($client);
 $result = array();
 $store = "icubeswire";
-func($decodedData, $store);
+func($decodedData, $store, $conn);
 
 
 

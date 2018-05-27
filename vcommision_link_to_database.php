@@ -25,7 +25,11 @@ $mysql_table = 'offers_database';
 
 ///////////////////////Deletes data from database
 $dataDeleteQuery = "Delete from ".$mysql_table." WHERE api_name like 'vcommission'";
-$data = mysqli_query($conn, $dataDeleteQuery);
+if($data = mysqli_query($conn, $dataDeleteQuery)){
+    echo 'deleted</br>';
+}else{
+  echo 'not deleted </br>';
+}
 ///////////////////////
 
 $client = file_get_contents('https://tools.vcommission.com/api/coupons.php?apikey=17c554a945c8fe66424fabc11c81b81aea0d635866fa279a26eb21c37b0e8e70');

@@ -39,7 +39,11 @@ $client = str_replace("'","''",$client);
 <?php
 ///////////////////////Deletes data from database
 $dataDeleteQuery = "Delete  from ".$mysql_table." WHERE api_name like 'flipkart'";
-$data = mysqli_query($conn, $dataDeleteQuery);
+if($data = mysqli_query($conn, $dataDeleteQuery)){
+    echo 'deleted</br>';
+}else{
+  echo 'not deleted </br>';
+}
 ///////////////////////
 $store = "flipkart";
 $decodedDatas = json_decode($client);
@@ -63,7 +67,9 @@ function func($decodedDatas, $store,$conn){
       //   # code...
       // }
       if($decodedData->availability == 'LIVE'){
-        $decodedData->coupon_expiry= '2022-02-02';
+        $decodedData->coupon_expiry= date('Y-m-d',($decodedData->endTime/1000));
+        // echo $decodedData->coupon_expiry->format('Y-m-d ');
+        // echo $decodedData->coupon_expiry;
       }
     // echo $decodedData->Campaign_Name."Hello</br>";
     // echo $int;

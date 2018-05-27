@@ -29,7 +29,7 @@ $presentDate = getDate()['year']."-".getDate()['mon']."-".getDate()['mday'];
 // <input type="Submit" value="SignIn"/>
 // </form>
 
-$record_per_page = 50;
+$record_per_page = 30;
 $page = '';
 if(isset($_GET["page"]))
 {
@@ -43,7 +43,7 @@ else
 $start_from = ($page-1)*$record_per_page;
 
 ////////////////////////////////////////////////////////////////
-$page_query = "SELECT * FROM offers_database WHERE api_name LIKE 'vcommission' AND offer_expiry_date > '".$presentDate."'";
+$page_query = "SELECT * FROM offers_database WHERE api_name LIKE 'optimize' AND offer_expiry_date > '".$presentDate."' GROUP BY 'offer_tracking_url'";
 $page_result = mysqli_query($conn, $page_query);
 $total_records = mysqli_num_rows($page_result);
 $total_pages = ceil($total_records/$record_per_page);
@@ -57,13 +57,13 @@ $end_loop = $start_loop + 4;
 ////////////////////////////////////////////////////////////////
 
 
-$query = "SELECT * FROM `offers_database` WHERE `api_name` LIKE 'vcommission' AND `offer_expiry_date` > '".$presentDate."' LIMIT $start_from, $record_per_page ";
+$query = "SELECT * FROM `offers_database` WHERE `offer_expiry_date` > '".$presentDate."' AND `api_name` LIKE 'optimize'  GROUP BY offer_tracking_url LIMIT $start_from, $record_per_page ";
 
 $query_run = mysqli_query($conn, $query);
 $my_array = array();
 if(mysqli_num_rows($query_run)>0){
   while($row = mysqli_fetch_assoc($query_run)){
-    $returnData['ID'] = $row['offer_id'];
+    // $returnData['ID'] = $row['offer_id'];
     $returnData['store_name']=$row['offer_company'];
     $returnData['offer_name']= $row['offer_title'];
     $returnData['category'] =$row['offer_description'];
